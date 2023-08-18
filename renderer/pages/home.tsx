@@ -1,28 +1,62 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
+import React, { useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import logo from "../../resources/claval-logo.jpg";
+import type { RawChartPoint } from "../types";
+import DropZone from "../components/DropZone";
+import LogPlot from "../components/LogPlot";
 
 function Home() {
+  const [logData, setLogData] = useState<RawChartPoint[]>([]);
+  const [logDataReceived, setLogDataReceived] = useState(false);
+
+  const handleLogData = (data: RawChartPoint[]) => {
+    setLogData(data);
+    setLogDataReceived(true);
+  };
+
+  const resetLogData = () => {
+    setLogData([]);
+    setLogDataReceived(false);
+  };
+
+  let pageContent = null;
+
+  if (!logDataReceived) {
+    pageContent = (
+      <div className="flex grow items-center justify-center">
+        <div className="flex flex-col gap-12 rounded-lg bg-[#ffffff12] p-12">
+          <h1 className="text-center text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+            Smart Plotter
+          </h1>
+          <div className="flex justify-center text-white">
+            <DropZone onLogDataReceived={handleLogData} />
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    pageContent = <LogPlot plotData={logData} onReset={resetLogData} />;
+  }
+
   return (
     <React.Fragment>
       <Head>
-        <title>Home - Nextron (with-typescript-tailwindcss)</title>
+        <title>Cla-Val Smart Plotter</title>
       </Head>
-      <div className='grid grid-col-1 text-2xl w-full text-center'>
-        <img className='ml-auto mr-auto' src='/images/logo.png' />
-        <span>⚡ Electron ⚡</span>
-        <span>+</span>
-        <span>Next.js</span>
-        <span>+</span>
-        <span>tailwindcss</span>
-        <span>=</span>
-        <span>💕 </span>
-      </div>
-      <div className='mt-1 w-full flex-wrap flex justify-center'>
-        <Link href='/next'>
-          <a className='btn-blue'>Go to next page</a>
-        </Link>
-      </div>
+      <main className="flex min-h-screen flex-col bg-[#121212]">
+        <header className="flex flex-row items-center justify-start px-4 py-4 text-[#ffffffde]">
+          <Image
+            className="mx-2"
+            height={50}
+            width={200}
+            src={logo}
+            alt="Cla-Val Logo"
+          />
+        </header>
+        {pageContent}
+      </main>
     </React.Fragment>
   );
 }

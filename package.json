@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "my-nextron-app",
-  "description": "My application description",
+  "name": "cla-val-smart-plotter",
+  "description": "Data visualizer for the Cla-Val Smart Controller.",
   "version": "1.0.0",
-  "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
+  "author": "Kevin Darmstadt <kdarmstadt@cla-val.com>",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",

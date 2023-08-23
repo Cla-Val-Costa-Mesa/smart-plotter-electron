@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: cla-val.smart.plotter
+productName: Cla-Val Smart Plotter
+copyright: N/A
 directories:
   output: dist
   buildResources: resources
@@ -9,4 +9,7 @@ files:
     filter:
       - package.json
       - app
+extraResources:
+  - from: ./resources/uSQLiteFinalize.exe
+    to: uSQLiteFinalize.exe
 publish: null

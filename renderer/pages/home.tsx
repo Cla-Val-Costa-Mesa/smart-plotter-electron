@@ -30,10 +30,10 @@ function Home() {
     pageContent = (
       <div className="flex grow items-center justify-center">
         <div className="flex flex-col gap-12 rounded-lg bg-[#ffffff12] p-12">
-          <h1 className="text-center text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+          <h1 className="text-center text-5xl font-extrabold tracking-tight text-[#ffffffde] sm:text-[5rem]">
             Smart Plotter
           </h1>
-          <div className="flex justify-center text-white">
+          <div className="flex justify-center text-[#ffffffde]">
             <DropZone onLogDataReceived={handleLogData} />
           </div>
         </div>

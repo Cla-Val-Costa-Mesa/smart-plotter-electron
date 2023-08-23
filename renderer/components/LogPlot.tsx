@@ -47,11 +47,15 @@ interface LogPlotState {
   xRight: number | null; // x-axis value of selected point
 }
 
+// Payload contains the important information in an ActivePayloadItem.
 interface Payload {
   id: number;
   timestamp: number;
+  prsDeadman: number;
+  prsFeedback: number;
 }
 
+// Clicking/hovering on the chart gives you an ActivePayloadItem.
 interface ActivePayloadItem {
   payload: Payload;
 }
@@ -131,8 +135,6 @@ function getMinMaxPressure(
   // Always show the x-axis (y = 0).
   if (min > 0) min = 0;
 
-  // console.log("Calculated min/max -- min: " + min + ", max: " + max);
-
   return [min, max];
 }
 
@@ -145,10 +147,29 @@ function createDatascale(
   return scaleLinear().domain(getMinMaxPressure(points)).nice();
 }
 
-// Format tooltip to show 2 decimal places on psig values.
-function toolTipFormatter(value: number) {
-  return value.toFixed(2) + " psig";
-}
+// Formatting for the Tooltip.
+type TooltipProps = {
+  active?: boolean;
+  payload?: ActivePayloadItem;
+  label?: string;
+};
+const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
+  if (active && payload) {
+    const timestamp = payload[0].payload.timestamp;
+    const prsDeadman = payload[0].payload.prsDeadman;
+    const prsFeedback = payload[0].payload.prsFeedback;
+
+    return (
+      <div className="custom-tooltip rounded-lg py-2 px-4 bg-[#121212] text-[#ffffffde]">
+        <p className="label">{timestamp.toString()}</p>
+        <p className="prsDeadman">Deadman: {prsDeadman.toFixed(2)} psig</p>
+        <p className="prsFeedback">Feedback: {prsFeedback.toFixed(2)} psig</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 // Reduce the number of points in the given array.
 const numVisiblePoints = 1000;
@@ -378,10 +399,10 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
               animationDuration={200}
             />
             {xLeft && xRight ? (
-              <ReferenceArea x1={xLeft} x2={xRight} strokeOpacity={0.3} />
+              <ReferenceArea x1={xLeft} x2={xRight} fillOpacity={0.2} strokeOpacity={0.3} />
             ) : null}
             <CartesianGrid stroke="#ffffff99" strokeDasharray="3 3" />
-            <Tooltip formatter={toolTipFormatter} />
+            <Tooltip content={<CustomTooltip />} />
             <Legend align="center" verticalAlign="top" height={42} />
           </ComposedChart>
         </ResponsiveContainer>

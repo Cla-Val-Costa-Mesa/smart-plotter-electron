@@ -1,11 +1,13 @@
-export interface RawChartPoint {
+import { DateTime } from "luxon";
+
+export interface ChartPointString {
   id: number;
   timestamp: string;
   prsDeadman: number;
   prsFeedback: number;
 }
 
-export interface ChartPoint {
+export interface ChartPointDate {
   id: number;
   timestamp: Date;
   prsDeadman: number;

@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import type { RawChartPoint, ChartPoint } from "../types";
+import type { ChartPointString, ChartPointDate } from "../types";
 import {
   scaleTime,
   type ScaleTime,
@@ -32,13 +32,13 @@ import type { CategoricalChartState } from "recharts/types/chart/generateCategor
 
 // LogPlotProps are the props passed to the LogPlot.
 interface LogPlotProps {
-  plotData: RawChartPoint[];
+  plotData: ChartPointString[];
   onReset: () => void;
 }
 
 // LogPlotState holds the entire state of the LogPlot.
 interface LogPlotState {
-  data: ChartPoint[]; // the plotted data
+  data: ChartPointDate[]; // the plotted data
   timescale: ScaleTime<number, number, never>; // x-axis scale
   datascale: ScaleLinear<number, number, never>; // y-axis scale
   idLeft: number | null; // id of selected point
@@ -87,7 +87,7 @@ function multiFormat(date: Date): string {
 
 // Create timescale from RawChartPoints.
 function createTimescale(
-  points: RawChartPoint[]
+  points: ChartPointString[]
 ): ScaleTime<number, number, never> {
   // Get the first and last timestamps.
   let timeStrLeft = points[0]?.timestamp;
@@ -113,7 +113,7 @@ function createTimescale(
 }
 
 // Get min/max pressure values from RawChartPoints or ChartPoints.
-function getMinMaxPressure(points: RawChartPoint[] | ChartPoint[]): number[] {
+function getMinMaxPressure(points: ChartPointString[] | ChartPointDate[]): number[] {
   // Start with both values set to zero.
   let [min, max] = [0, 0];
 
@@ -136,7 +136,7 @@ function getMinMaxPressure(points: RawChartPoint[] | ChartPoint[]): number[] {
 
 // Create datascale from RawChartPoints or ChartPoints.
 function createDatascale(
-  points: RawChartPoint[] | ChartPoint[]
+  points: ChartPointDate[] | ChartPointDate[]
 ): ScaleLinear<number, number, never> {
   // Create ScaleLinear using domain from getMinMaxPressure.
   // nice() rounds the domain to nice values.
@@ -150,7 +150,7 @@ function toolTipFormatter(value: number) {
 
 // Reduce the number of points in the given array.
 const numVisiblePoints = 1000;
-function shrinkDataset(points: RawChartPoint[]): RawChartPoint[] {
+function shrinkDataset(points: ChartPointString[]): ChartPointString[] {
   // Make a copy of points;
   let newPoints = points.slice();
 
@@ -190,7 +190,7 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
     const initialTimescale = createTimescale(rawPoints);
 
     // Convert the timestamps from strings to Dates.
-    const plotData: ChartPoint[] = rawPoints.map((point) => ({
+    const plotData: ChartPointDate[] = rawPoints.map((point) => ({
       ...point,
       timestamp: new Date(point.timestamp),
     }));
@@ -232,7 +232,7 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
     if (idLeft > idRight) [idLeft, idRight] = [idRight, idLeft];
 
     // Slice the *original* dataset using idLeft and idRight.
-    let rawPoints: RawChartPoint[] = this.props.plotData.slice(idLeft, idRight);
+    let rawPoints: ChartPointString[] = this.props.plotData.slice(idLeft, idRight);
 
     // Shrink the dataset.
     rawPoints = shrinkDataset(rawPoints);
@@ -241,7 +241,7 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
     const newTimescale = createTimescale(rawPoints);
 
     // Convert RawChartPoints to ChartPoints.
-    const points: ChartPoint[] = rawPoints.map((p) => ({
+    const points: ChartPointDate[] = rawPoints.map((p) => ({
       ...p,
       timestamp: new Date(p.timestamp),
     }));

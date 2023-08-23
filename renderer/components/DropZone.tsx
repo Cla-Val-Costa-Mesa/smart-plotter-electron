@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import type { RawChartPoint } from "../types";
+import type { ChartPointString } from "../types";
 const ipc = require("electron").ipcRenderer;
 
 interface DropZoneProps {
-  onLogDataReceived: (logData: RawChartPoint[]) => void;
+  onLogDataReceived: (logData: ChartPointString[]) => void;
 }
 
 const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
@@ -29,11 +29,11 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
 
         if (fileBuffer) {
           try {
-            const plotData = await ipc.invoke("process-file", {
+            const plotData: ChartPointString[] = await ipc.invoke("process-file", {
               buffer: fileBuffer,
               name: file.name,
             });
-            
+
             onLogDataReceived(plotData);
             setUploadWIP(false);
           } catch (error) {

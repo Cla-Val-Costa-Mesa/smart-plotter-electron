@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import { Database } from "sqlite3";
 import { DateTime } from "luxon";
-import { RawChartPoint, SQLiteRow } from "../renderer/types";
+import { ChartPointString, SQLiteRow } from "../renderer/types";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
@@ -75,12 +75,12 @@ ipcMain.handle("process-file", async (event, { buffer, name }) => {
   });
 
   // Set up variables for reading data from database.
-  let points: RawChartPoint[] = [];
+  let points: ChartPointString[] = [];
   let dataCounter = 0;
   let idCounter = 0;
 
   // Create a promise for array of RawChartPoints.
-  return new Promise<RawChartPoint[]>((resolve, reject) => {
+  return new Promise<ChartPointString[]>((resolve, reject) => {
     // For each row returned by the query,
     db.each(
       "SELECT DateTimeEpochMS, AI1Eng, AI2Eng FROM logdata",
@@ -101,7 +101,7 @@ ipcMain.handle("process-file", async (event, { buffer, name }) => {
           // Add the data to points.
           points.push({
             id: idCounter,
-            timestamp: userTime,
+            timestamp: userTime.toString(),
             prsDeadman: row?.AI1Eng,
             prsFeedback: row?.AI2Eng,
           });

@@ -3,15 +3,15 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../resources/claval-logo.jpg";
-import type { RawChartPoint } from "../types";
+import type { ChartPointString } from "../types";
 import DropZone from "../components/DropZone";
 import LogPlot from "../components/LogPlot";
 
 function Home() {
-  const [logData, setLogData] = useState<RawChartPoint[]>([]);
+  const [logData, setLogData] = useState<ChartPointString[]>([]);
   const [logDataReceived, setLogDataReceived] = useState(false);
 
-  const handleLogData = (data: RawChartPoint[]) => {
+  const handleLogData = (data: ChartPointString[]) => {
     setLogData(data);
     setLogDataReceived(true);
   };

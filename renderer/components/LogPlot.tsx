@@ -113,7 +113,9 @@ function createTimescale(
 }
 
 // Get min/max pressure values from RawChartPoints or ChartPoints.
-function getMinMaxPressure(points: ChartPointString[] | ChartPointDate[]): number[] {
+function getMinMaxPressure(
+  points: ChartPointString[] | ChartPointDate[]
+): number[] {
   // Start with both values set to zero.
   let [min, max] = [0, 0];
 
@@ -232,7 +234,10 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
     if (idLeft > idRight) [idLeft, idRight] = [idRight, idLeft];
 
     // Slice the *original* dataset using idLeft and idRight.
-    let rawPoints: ChartPointString[] = this.props.plotData.slice(idLeft, idRight);
+    let rawPoints: ChartPointString[] = this.props.plotData.slice(
+      idLeft,
+      idRight
+    );
 
     // Shrink the dataset.
     rawPoints = shrinkDataset(rawPoints);

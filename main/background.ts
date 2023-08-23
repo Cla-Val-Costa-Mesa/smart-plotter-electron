@@ -38,6 +38,7 @@ app.on("window-all-closed", () => {
   app.quit();
 });
 
+// Listener for DropZone's process-file requests.
 ipcMain.handle("process-file", async (event, { buffer, name }) => {
   // Create paths.
   const tempDir = path.join(app.getPath("temp"), "cla-val-smart-plotter");
@@ -63,6 +64,8 @@ ipcMain.handle("process-file", async (event, { buffer, name }) => {
 
   // If code is not 0 then something went wrong.
   if (code !== 0) {
+    // Delete the fb file and throw error.
+    fs.unlinkSync(fbPath);
     throw new Error("File conversion failed.");
   }
 

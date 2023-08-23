@@ -11,11 +11,13 @@ function Home() {
   const [logData, setLogData] = useState<ChartPointString[]>([]);
   const [logDataReceived, setLogDataReceived] = useState(false);
 
+  // Callback used by DropZone to store plot data.
   const handleLogData = (data: ChartPointString[]) => {
     setLogData(data);
     setLogDataReceived(true);
   };
 
+  // Callback used by LogPlot to reset the plot data.
   const resetLogData = () => {
     setLogData([]);
     setLogDataReceived(false);
@@ -23,6 +25,7 @@ function Home() {
 
   let pageContent = null;
 
+  // If we do not have logData, show the DropZone.
   if (!logDataReceived) {
     pageContent = (
       <div className="flex grow items-center justify-center">
@@ -37,6 +40,7 @@ function Home() {
       </div>
     );
   } else {
+    // Else show the LogPlot.
     pageContent = <LogPlot plotData={logData} onReset={resetLogData} />;
   }
 

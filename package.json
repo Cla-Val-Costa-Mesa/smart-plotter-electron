@@ -15,9 +15,10 @@
     "d3-time-format": "^4.1.0",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
-    "luxon": "^3.4.0",
+    "luxon": "^3.4.1",
     "react-dropzone": "^14.2.3",
-    "recharts": "^2.7.3"
+    "recharts": "^2.7.3",
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

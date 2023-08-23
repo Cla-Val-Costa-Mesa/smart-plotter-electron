@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import type { RawChartPoint } from "../types";
+const ipc = require("electron").ipcRenderer;
 
 interface DropZoneProps {
   onLogDataReceived: (logData: RawChartPoint[]) => void;
@@ -14,31 +15,32 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
       if (acceptedFiles.length === 0) return;
 
       const file = acceptedFiles[0];
-      const formData = new FormData();
-      if (file) formData.append("file", file);
 
       const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-      try {
-        setUploadWIP(true); // set uploadingFlag to true
+      setUploadWIP(true); // set uploadingFlag to true
 
-        // Make a POST request to the server endpoint
-        const response = await fetch("http://localhost:3001/convert-file", {
-          method: "POST",
-          headers: {
-            timezone: userTimezone,
-          },
-          body: formData,
-        });
+      const reader = new FileReader();
 
-        const result = (await response.json()) as RawChartPoint[];
+      reader.readAsArrayBuffer(file);
 
-        onLogDataReceived(result); // store the data
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setUploadWIP(false); // reset the uploadWIP flag
-      }
+      reader.onload = async (event) => {
+        const fileBuffer = event.target?.result;
+
+        if (fileBuffer) {
+          try {
+            const plotData = await ipc.invoke("process-file", {
+              buffer: fileBuffer,
+              name: file.name,
+            });
+            
+            onLogDataReceived(plotData);
+            setUploadWIP(false);
+          } catch (error) {
+            console.error("Error processing file: ", error);
+          }
+        }
+      };
     },
     [onLogDataReceived]
   );

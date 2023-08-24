@@ -29,7 +29,7 @@ function Home() {
   if (!logDataReceived) {
     pageContent = (
       <div className="flex grow items-center justify-center">
-        <div className="flex flex-col gap-12 rounded-lg bg-[#ffffff12] p-12">
+        <div className="flex flex-col rounded-lg bg-[#ffffff12] p-10 gap-8">
           <h1 className="text-center text-5xl font-extrabold text-[#ffffffde] tracking-wide sm:text-[5rem]">
             Smart Plotter
           </h1>
@@ -52,6 +52,7 @@ function Home() {
       <main className="flex min-h-screen flex-col bg-[#121212]">
         <header className="flex flex-row items-center justify-start p-6 text-[#ffffffde]">
           <a
+            title="www.cla-val.com"
             href="#"
             onClick={(e) => {
               e.preventDefault();
@@ -62,6 +63,15 @@ function Home() {
               <Image height={42} width={200} src={logo} alt="Cla-Val Logo" />
             </div>
           </a>
+          <div className="flex grow" />
+          <div className="px-2 underline">
+            <a
+              href="mailto:kdarmstadt@cla-val.com;jsuzuki@cla-val.com?subject=Smart Plotter Support Request"
+              title="Open an email to Cla-Val technical support"
+            >
+              Contact Us
+            </a>
+          </div>
         </header>
         {pageContent}
       </main>

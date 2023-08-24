@@ -447,20 +447,23 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
         <div className="m-8 flex flex-row justify-center gap-6">
           <button
             type="button"
-            className="rounded border border-gray-400 bg-[#ffffff12] px-4 py-2 font-semibold text-[#ffffffde] shadow hover:bg-[#ffffff30]"
+            title="Go back to the home screen"
+            className={activeButtonStyle}
             onClick={this.props.onReset}
           >
             Upload New Log
           </button>
           <button
             type="button"
-            className="rounded border border-gray-400 bg-[#ffffff12] px-4 py-2 font-semibold text-[#ffffffde] shadow hover:bg-[#ffffff30]"
+            title="Fully zoom out the plot"
+            className={activeButtonStyle}
             onClick={this.resetZoom.bind(this)}
           >
             Reset Zoom
           </button>
           <button
             type="button"
+            title="Undo the last zoom action"
             className={
               this.undoStack.length > 0
                 ? activeButtonStyle
@@ -473,6 +476,7 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
           </button>
           <button
             type="button"
+            title="Redo the last zoom action"
             className={
               this.redoStack.length > 0
                 ? activeButtonStyle

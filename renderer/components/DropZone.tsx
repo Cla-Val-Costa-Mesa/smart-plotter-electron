@@ -84,16 +84,16 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
       <>
         <div
           {...getRootProps()}
-          className="cursor-pointer border-2 border-dashed p-4 text-center"
+          className="cursor-pointer border-2 rounded-2xl border-dashed p-3 text-center"
         >
           <input {...getInputProps({ multiple: false })} />
           {isDragActive ? (
             <p>Release to generate plot</p>
           ) : (
             <p>
-              Drop your log file (.fb) here,
+              Drag & drop your .fb log file here,
               <br />
-              or click to select your file
+              or click to find it on your computer
             </p>
           )}
         </div>

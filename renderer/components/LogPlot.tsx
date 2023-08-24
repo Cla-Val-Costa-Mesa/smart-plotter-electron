@@ -202,6 +202,9 @@ let initialState: LogPlotState;
 
 // Create class LogPlot.
 export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
+  undoStack: LogPlotState[] = [];
+  redoStack: LogPlotState[] = [];
+
   // constructor() sets up the initialState.
   constructor(props: LogPlotProps) {
     super(props);
@@ -238,6 +241,9 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
 
   // zoom() is called after the user highlights a section of the LogPlot.
   zoom() {
+    this.undoStack.push({ ...this.state });
+    this.redoStack = [];
+
     let { idLeft, idRight } = this.state;
 
     // If idLeft or idRight are null or equal,
@@ -290,13 +296,37 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
     this.setState(newLogPlotState);
   }
 
-  // zoomOut() resets the state to initialState.
-  zoomOut() {
+  // resetZoom() resets the state to initialState.
+  resetZoom() {
+    this.undoStack.push({ ...this.state });
+    this.redoStack = [];
     this.setState(initialState);
+  }
+
+  // undoZoom() will undo the last zoom if possible.
+  undoZoom() {
+    if (this.undoStack.length > 0) {
+      const prevState = this.undoStack.pop();
+      this.redoStack.push({ ...this.state });
+      this.setState({ ...prevState, xLeft: null });
+    }
+  }
+
+  // redoZoom() will redo the last zoom if possible.
+  redoZoom() {
+    if (this.redoStack.length > 0) {
+      const nextState = this.redoStack.pop();
+      this.undoStack.push({ ...this.state });
+      this.setState({ ...nextState, xLeft: null });
+    }
   }
 
   render() {
     const { data, xLeft, xRight } = this.state;
+    const activeButtonStyle =
+      "rounded border border-gray-400 bg-[#ffffff12] px-4 py-2 font-semibold text-[#ffffffde] shadow hover:bg-[#ffffff30]";
+    const disabledButtonStyle =
+      "rounded border border-gray-400 bg-[#888888] px-4 py-2 font-semibold text-[#666666]";
 
     return (
       <div
@@ -425,9 +455,33 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
           <button
             type="button"
             className="rounded border border-gray-400 bg-[#ffffff12] px-4 py-2 font-semibold text-[#ffffffde] shadow hover:bg-[#ffffff30]"
-            onClick={this.zoomOut.bind(this)}
+            onClick={this.resetZoom.bind(this)}
           >
             Reset Zoom
+          </button>
+          <button
+            type="button"
+            className={
+              this.undoStack.length > 0
+                ? activeButtonStyle
+                : disabledButtonStyle
+            }
+            onClick={this.undoZoom.bind(this)}
+            disabled={this.undoStack.length === 0}
+          >
+            Undo
+          </button>
+          <button
+            type="button"
+            className={
+              this.redoStack.length > 0
+                ? activeButtonStyle
+                : disabledButtonStyle
+            }
+            onClick={this.redoZoom.bind(this)}
+            disabled={this.redoStack.length === 0}
+          >
+            Redo
           </button>
         </div>
       </div>

@@ -300,8 +300,8 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
 
     return (
       <div
-        className="highlight-bar-charts m-4 flex-col rounded-lg bg-[#ffffff12]"
-        style={{ height: "70vh", userSelect: "none" }}
+        className="highlight-bar-charts mx-6 py-2 px-4 flex-col rounded-lg bg-[#ffffff12]"
+        style={{ height: `calc(100vh - 188px)`, userSelect: "none" }}
       >
         <ResponsiveContainer>
           <ComposedChart
@@ -309,13 +309,13 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
             margin={{
               top: 20,
               right: 30,
-              bottom: 30,
-              left: 30,
+              bottom: 40,
+              left: 15,
             }}
             onMouseDown={(e: CategoricalChartState) => {
               let id: number | null = null;
               let timestamp: number | null = null;
-              const payload = e.activePayload as ActivePayloadItem[];
+              const payload = e?.activePayload as ActivePayloadItem[];
 
               if (payload?.[0]) {
                 id = payload[0].payload.id;
@@ -364,10 +364,11 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
               label={{
                 value: "Time",
                 position: "bottom",
-                offset: "10",
+                offset: "20",
                 fill: "#ffffffde",
               }}
               stroke="#ffffffde"
+              dy={15}
             />
             <YAxis
               allowDataOverflow
@@ -378,11 +379,13 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
               label={{
                 value: "Pressure (PSIG)",
                 position: "left",
-                offset: "0",
+                offset: "3",
                 angle: "270",
                 fill: "#ffffffde",
+                style: { textAnchor: "middle" },
               }}
               stroke="#ffffffde"
+              dx={-7}
             />
             <Line
               type="monotone"
@@ -399,14 +402,19 @@ export default class LogPlot extends PureComponent<LogPlotProps, LogPlotState> {
               animationDuration={200}
             />
             {xLeft && xRight ? (
-              <ReferenceArea x1={xLeft} x2={xRight} fillOpacity={0.2} strokeOpacity={0.3} />
+              <ReferenceArea
+                x1={xLeft}
+                x2={xRight}
+                fillOpacity={0.2}
+                strokeOpacity={0.3}
+              />
             ) : null}
             <CartesianGrid stroke="#ffffff99" strokeDasharray="3 3" />
             <Tooltip content={<CustomTooltip />} />
-            <Legend align="center" verticalAlign="top" height={42} />
+            <Legend wrapperStyle={{ bottom: 0, left: 42 }} />
           </ComposedChart>
         </ResponsiveContainer>
-        <div className="m-6 flex flex-row justify-center gap-6">
+        <div className="m-8 flex flex-row justify-center gap-6">
           <button
             type="button"
             className="rounded border border-gray-400 bg-[#ffffff12] px-4 py-2 font-semibold text-[#ffffffde] shadow hover:bg-[#ffffff30]"

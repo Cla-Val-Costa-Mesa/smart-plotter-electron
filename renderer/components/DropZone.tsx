@@ -71,8 +71,11 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
   // If uploadWIP is true then signal to the user that the file is being processed.
   if (uploadWIP) {
     return (
-      <div className="border-2 border-dashed p-4">
-        <h1 className="font-bold">Uploading...</h1>
+      <div className="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
     );
   } else {
@@ -81,13 +84,17 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
       <>
         <div
           {...getRootProps()}
-          className="cursor-pointer border-2 border-dashed p-4"
+          className="cursor-pointer border-2 border-dashed p-4 text-center"
         >
           <input {...getInputProps({ multiple: false })} />
           {isDragActive ? (
-            <p>Release to upload</p>
+            <p>Release to generate plot</p>
           ) : (
-            <p>Upload your log file (.fb) here</p>
+            <p>
+              Drop your log file (.fb) here,
+              <br />
+              or click to select your file
+            </p>
           )}
         </div>
       </>

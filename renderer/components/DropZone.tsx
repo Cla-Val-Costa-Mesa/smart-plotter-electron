@@ -93,7 +93,7 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
             <p>
               Drag & drop your .fb log file here,
               <br />
-              or click to find it on your computer
+              or click to open a file browser
             </p>
           )}
         </div>

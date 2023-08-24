@@ -29,7 +29,7 @@ function Home() {
   if (!logDataReceived) {
     pageContent = (
       <div className="flex grow items-center justify-center">
-        <div className="flex flex-col rounded-lg bg-[#ffffff12] p-10 gap-8">
+        <div className="flex flex-col rounded-xl bg-[#ffffff12] p-10 gap-8">
           <h1 className="text-center text-5xl font-extrabold text-[#ffffffde] tracking-wide sm:text-[5rem]">
             Smart Plotter
           </h1>

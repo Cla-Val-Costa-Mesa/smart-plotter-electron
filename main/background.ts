@@ -10,6 +10,8 @@ import { ChartPointString, SQLiteRow } from "../renderer/types";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
+process.env.PATH = path.join(__dirname, "resources") + ';' + process.env.PATH;
+
 if (isProd) {
   serve({ directory: "app" });
 } else {
@@ -52,7 +54,11 @@ ipcMain.handle("process-file", async (event, { buffer, name }) => {
   }
 
   // Write the fb file to the fbPath.
-  fs.writeFileSync(fbPath, Buffer.from(buffer));
+  try {
+    fs.writeFileSync(fbPath, Buffer.from(buffer));
+  } catch (error) {
+    console.error(`Error writing file: ${error}`);
+  }
 
   // Run the finalizer, get the return code.
   const convertProcess = spawn("./resources/uSQLiteFinalize.exe", [fbPath]);

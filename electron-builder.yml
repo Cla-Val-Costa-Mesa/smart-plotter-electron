@@ -12,4 +12,12 @@ files:
 extraResources:
   - from: ./resources/uSQLiteFinalize.exe
     to: uSQLiteFinalize.exe
+  - from: ./resources/libgcc_s_seh-1.dll
+    to: libgcc_s_seh-1.dll
+  - from: ./resources/libsqlite3-0.dll
+    to: libsqlite3-0.dll
+  - from: ./resources/libstdc++-6.dll
+    to: libstdc++-6.dll
+  - from: ./resources/libwinpthread-1.dll
+    to: libwinpthread-1.dll
 publish: null

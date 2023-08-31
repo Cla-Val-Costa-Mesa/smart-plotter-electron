@@ -13,6 +13,7 @@
   "dependencies": {
     "d3-scale": "^4.0.2",
     "d3-time-format": "^4.1.0",
+    "electron-log": "^4.4.8",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
     "luxon": "^3.4.1",

@@ -17,6 +17,7 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
   const onDrop = useCallback(
     // Array of Files is received.
     async (acceptedFiles: File[]) => {
+
       // If length is 0 then no files were received.
       if (acceptedFiles.length === 0) return;
 
@@ -53,7 +54,7 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
             // Upload complete.
             setUploadWIP(false);
           } catch (error) {
-            console.error("Error processing file: ", error);
+            console.error(`Error processing file: ${error}`);
           }
         }
       };

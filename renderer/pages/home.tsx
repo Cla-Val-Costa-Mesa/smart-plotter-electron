@@ -27,18 +27,7 @@ function Home() {
 
   // If we do not have logData, show the DropZone.
   if (!logDataReceived) {
-    pageContent = (
-      <div className="flex grow items-center justify-center">
-        <div className="flex flex-col rounded-xl bg-[#ffffff12] p-10 gap-8">
-          <h1 className="text-center text-5xl font-extrabold text-[#ffffffde] tracking-wide sm:text-[5rem]">
-            Smart Plotter
-          </h1>
-          <div className="flex justify-center text-[#ffffffde]">
-            <DropZone onLogDataReceived={handleLogData} />
-          </div>
-        </div>
-      </div>
-    );
+    pageContent = <DropZone onLogDataReceived={handleLogData} />;
   } else {
     // Else show the LogPlot.
     pageContent = <LogPlot plotData={logData} onReset={resetLogData} />;

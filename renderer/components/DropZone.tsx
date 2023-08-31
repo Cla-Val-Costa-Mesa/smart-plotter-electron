@@ -17,7 +17,6 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
   const onDrop = useCallback(
     // Array of Files is received.
     async (acceptedFiles: File[]) => {
-
       // If length is 0 then no files were received.
       if (acceptedFiles.length === 0) return;
 
@@ -69,38 +68,58 @@ const DropZone: React.FC<DropZoneProps> = ({ onLogDataReceived }) => {
     },
   });
 
+  let dropzoneContent = null;
+
   // If uploadWIP is true then signal to the user that the file is being processed.
   if (uploadWIP) {
-    return (
-      <div className="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+    dropzoneContent = (
+      <div className="flex flex-col items-center gap-4">
+        <div className="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div className="text-center">
+          Processing... please allow up to 1 minute.
+        </div>
       </div>
     );
   } else {
     // Else show the DropZone.
-    return (
+    dropzoneContent = (
       <>
-        <div
-          {...getRootProps()}
-          className="cursor-pointer border-2 rounded-2xl border-dashed p-3 text-center"
-        >
-          <input {...getInputProps({ multiple: false })} />
-          {isDragActive ? (
-            <p>Release to generate plot</p>
-          ) : (
-            <p>
-              Drag & drop your .fb log file here,
-              <br />
-              or click to open a file browser
-            </p>
-          )}
+        <h1 className="text-center text-5xl font-extrabold text-[#ffffffde] tracking-wide sm:text-[5rem]">
+          Smart Plotter
+        </h1>
+        <div className="flex justify-center text-[#ffffffde]">
+          <div
+            {...getRootProps()}
+            className="cursor-pointer border-2 rounded-2xl border-dashed p-3 text-center"
+          >
+            <input {...getInputProps({ multiple: false })} />
+            {isDragActive ? (
+              <p>Release to generate plot</p>
+            ) : (
+              <p>
+                Drag & drop your .fb log file here,
+                <br />
+                or click to open a file browser
+              </p>
+            )}
+          </div>
         </div>
       </>
     );
   }
+
+  return (
+    <div className="flex grow items-center justify-center">
+      <div className="flex flex-col rounded-xl bg-[#ffffff12] p-10 gap-8">
+        {dropzoneContent}
+      </div>
+    </div>
+  );
 };
 
 export default DropZone;

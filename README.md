@@ -2,7 +2,7 @@
 # Smart Plotter
 
 #### This repository contains the source code for the Cla-Val Smart Plotter.
-#### Last Updated: 24 August 2023 by KD.
+#### Last Updated: 1 September 2023 by KD.
 
 ***
 

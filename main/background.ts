@@ -10,7 +10,7 @@ import { ChartPointString, SQLiteRow } from "../renderer/types";
 
 const isProd: boolean = process.env.NODE_ENV === "production";
 
-process.env.PATH = path.join(__dirname, "resources") + ';' + process.env.PATH;
+process.env.PATH = path.join(__dirname, "resources") + ";" + process.env.PATH;
 
 if (isProd) {
   serve({ directory: "app" });
